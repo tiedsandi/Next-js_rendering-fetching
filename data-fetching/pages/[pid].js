@@ -6,9 +6,9 @@ import {Fragment} from 'react';
 function ProductDetailPage(props) {
   const {loadedProduct} = props;
 
-  // if (!loadedProduct) {
-  //   return <p>loading...</p>;
-  // }
+  if (!loadedProduct) {
+    return <p>loading...</p>;
+  }
 
   return (
     <Fragment>
@@ -35,6 +35,10 @@ export async function getStaticProps(context) {
 
   const product = data.products.find((product) => product.id === productId);
 
+  if (!product) {
+    return {notFound: true};
+  }
+
   return {
     props: {
       loadedProduct: product,
@@ -46,13 +50,12 @@ export async function getStaticPaths() {
   const data = await getData();
 
   const ids = data.products.map((product) => product.id);
-
   const pathsWithParams = ids.map((id) => ({params: {pid: id}}));
 
   return {
     paths: pathsWithParams,
     // fallback: 'blocking', //fallback: true,  you can change it to true, if you want fast but you need to return some state like loading...
-    fallback: false,
+    fallback: true,
   };
 }
 
