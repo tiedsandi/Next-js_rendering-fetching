@@ -6,6 +6,10 @@ import {Fragment} from 'react';
 function ProductDetailPage(props) {
   const {loadedProduct} = props;
 
+  // if (!loadedProduct) {
+  //   return <p>loading...</p>;
+  // }
+
   return (
     <Fragment>
       <h1>{loadedProduct.title}</h1>
@@ -34,8 +38,8 @@ export async function getStaticProps(context) {
 
 export async function getStaticPaths() {
   return {
-    paths: [{params: {pid: 'p1'}}, {params: {pid: 'p2'}}, {params: {pid: 'p3'}}],
-    fallback: false,
+    paths: [{params: {pid: 'p1'}}],
+    fallback: 'blocking', //fallback: true,  you can change it to true, if you want fast but you need to return some state like loading...
   };
 }
 
